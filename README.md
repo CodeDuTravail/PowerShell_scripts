@@ -8,3 +8,6 @@ A collection of PowerShell scripts for various purposes.
     - TPM check
     - DNS check
     - Expiration date of SSL Certificate
+
+* GetEventLog_LogOn_LogOff.ps1
+    >Track Logon/Logoff events from windows eventlog.
