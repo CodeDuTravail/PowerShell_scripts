@@ -122,23 +122,23 @@ Write-host -f Gray "`r`n########################################################
 	# OME DEVICE SSH CHECK ####################################################
 	$OD_SshSession = New-SSHSession -ComputerName $OD_DRAC -Credential $Drac_Credits -AcceptKey
 
-		# IF SSH OK ##################################################
+    # IF SSH OK ##################################################
 		if (($OD_SshSession).connected -like $True)
 		{
-	        $SSH_Connection = "OK"
+            $SSH_Connection = "OK"
 			$PW_Check = "CURRENT"
 			
-			# SERVICETAG CHECK ####################################################
-			$OD_SshSessionId = (Get-SSHSession | where-object {$_.host -like $OD_DRAC}).sessionid
+            # SERVICETAG CHECK ####################################################
+            $OD_SshSessionId = (Get-SSHSession | where-object {$_.host -like $OD_DRAC}).sessionid
 
-			$HiMyNameIs = Invoke-SSHCommand -Command "racadm getsvctag" -SessionId $OD_SshSessionId
+            $HiMyNameIs = Invoke-SSHCommand -Command "racadm getsvctag" -SessionId $OD_SshSessionId
             
             $HiMyNameIs.Output
             write-host -f cyan "---------------------------------------------------------------------------"
 
-			if(([String]($HiMyNameIs.Output)) -like $OD_ServiceTag)
-			{
-			write-host -f green "$OD_DN | iDRAC : $OD_DRAC : Connexion SSH $SSH_Connection !"
+            if(([String]($HiMyNameIs.Output)) -like $OD_ServiceTag)
+            {
+            write-host -f green "$OD_DN | iDRAC : $OD_DRAC : Connexion SSH $SSH_Connection !"
             write-host -f cyan "---------------------------------------------------------------------------"
 
             $Output  = New-Object -Type PSObject
@@ -152,10 +152,9 @@ Write-host -f Gray "`r`n########################################################
             $Output | Add-Member -MemberType NoteProperty -Name "PW_Check"             -Value $([string]$PW_Check)
             $Global:tab += $Output
 
+            }
 
-			}
-
-			# FIN SERVICETAG CHECK ####################################################
+        # FIN SERVICETAG CHECK ####################################################
 
 		# SSH DISCONNECT ##################################################
 		write-host "$OD_DN : Déconnexion SSH"
@@ -188,7 +187,7 @@ Write-host -f Gray "`r`n########################################################
             $HiMyNameIs.Output
             $SvcTag = $HiMyNameIs.Output
 			
-			            write-host -f cyan "---------------------------------------------------------------------------"
+                write-host -f cyan "---------------------------------------------------------------------------"
 
                 if(([String]($HiMyNameIs.Output)) -notlike "")
                 {
@@ -204,7 +203,7 @@ Write-host -f Gray "`r`n########################################################
                     {
                     write-host -f Yellow "$OD_DN | iDRAC : $OD_DRAC : Connexion SSH $SSH_Connection | PASSWORD CHANGE TIME !! "
                     write-host -f Cyan "---------------------------------------------------------------------------"
-					$Am_I_changed = Invoke-SSHCommand -Command "racadm set iDRAC.Users.2.Password $Drac_UnPw" -SessionId $OD_SshSessionId
+                    $Am_I_changed = Invoke-SSHCommand -Command "racadm set iDRAC.Users.2.Password $Drac_UnPw" -SessionId $OD_SshSessionId
 			        
                     $Am_I_changed.Output
 
@@ -230,10 +229,10 @@ Write-host -f Gray "`r`n########################################################
             $Output | Add-Member -MemberType NoteProperty -Name "Model"                -Value $([string]$OD.Model)
             $Output | Add-Member -MemberType NoteProperty -Name "SSH_Connection"       -Value $([string]$SSH_Connection)
             $Output | Add-Member -MemberType NoteProperty -Name "OME_ConnectionState"  -Value $([string]$OD.ConnectionState)
-			$Output | Add-Member -MemberType NoteProperty -Name "PW_Check"             -Value $([string]$PW_Check)
+            $Output | Add-Member -MemberType NoteProperty -Name "PW_Check"             -Value $([string]$PW_Check)
             $Global:tab += $Output
 
-	        }
+            }
 
 
             if (($OD_SshSession).connected -notlike $true)
@@ -262,10 +261,10 @@ Write-host -f Gray "`r`n########################################################
 
         # IF ELSE SSH OK ##################################################
 
-		Write-host -f Gray "`r`n                #######################################################             `r`n"
+    Write-host -f Gray "`r`n                #######################################################             `r`n"
 	# FIN # OME DEVICE SSH CHECK ####################################################
     }
-elseif(($Global:OD_DRAC -like "") -and ($OD_DN -notlike "*-*") -and ($OD_DN -notlike "*.*.*.*")) # REPARTIR DE LA
+    elseif(($Global:OD_DRAC -like "") -and ($OD_DN -notlike "*-*") -and ($OD_DN -notlike "*.*.*.*")) # REPARTIR DE LA
     {
     # CHASSIS DEVICE SSH CHECK ##################################################
         write-host -f Cyan "---------------------------------------------------------------------------"
@@ -291,9 +290,9 @@ elseif(($Global:OD_DRAC -like "") -and ($OD_DN -notlike "*-*") -and ($OD_DN -not
             $HiMyNameIs.Output
             write-host -f cyan "---------------------------------------------------------------------------"
 
-			if(([String]($HiMyNameIs.Output)) -like "*Chassis*$OD_ServiceTag*")
-			{
-			write-host -f green "$OD_DN | Chassis : $OD_IP : Connexion SSH $SSH_Connection !"
+            if(([String]($HiMyNameIs.Output)) -like "*Chassis*$OD_ServiceTag*")
+            {
+            write-host -f green "$OD_DN | Chassis : $OD_IP : Connexion SSH $SSH_Connection !"
             write-host -f cyan "---------------------------------------------------------------------------"
 
             $Output  = New-Object -Type PSObject
