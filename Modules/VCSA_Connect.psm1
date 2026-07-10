@@ -1,4 +1,4 @@
- <# VCSA_Connect MODULE # v1.0 # 28/12/2023 ############################################################################################
+<# VCSA_Connect MODULE # v1.0 # 28/12/2023 ############################################################################################
 
  Connect to vCenters like this :
 
@@ -14,7 +14,28 @@
  # Set-PowerCLIConfiguration -DefaultVIServerMode Multiple -Confirm:$false
  # Disconnect-VIServer -Server * -Force  -Confirm:$False
 
- #########################################################################################################################################>
+# JSON Example for VCSA_Connect.psm1 module ########################################################################################################
+
+[{
+	"VC1":{
+	"FQDN":"VC1.nsm.local",
+	"SSH_HK_FP":"ssh-ed25519 255 Your_SSH_Host_Key_FingerPrint",
+	"VCA":"VCA",
+	"VCR":"VC",
+	"ESXi":"ESXi"
+	}
+},
+{
+	"VC2":{
+	"FQDN":"VC2.nsm.local",
+	"SSH_HK_FP":"ssh-ed25519 255 Your_SSH_Host_Key_FingerPrint",
+	"VCA":"VCA",
+	"VCR":"VC",
+	"ESXi":"ESXi"
+	}
+}]
+
+#########################################################################################################################################>
 
  Function VCSA_Connect {
             [CmdletBinding()]
